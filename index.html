@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday, Appa! | A Cinematic Celebration</title>
+  <meta name="description" content="A luxurious, heartfelt birthday celebration website dedicated to Appa.">
+
+  <!-- Google Fonts: Cinzel Decorative, Playfair Display & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800;900&family=Cinzel+Decorative:wght@700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="is-locked">
+
+  <!-- Ambient Golden Particle Canvas -->
+  <canvas id="ambient-canvas" class="ambient-canvas"></canvas>
+
+  <!-- ==============================================
+       1. OPENING SURPRISE SCREEN (FULLSCREEN OVERLAY)
+       ============================================== -->
+  <div id="surprise-screen" class="surprise-screen">
+    <div class="surprise-particles-burst" id="surprise-burst"></div>
+    <div class="surprise-content">
+      <div class="luxury-badge">
+        <span class="gold-sparkle">✦</span> A CELEBRATION OF LOVE <span class="gold-sparkle">✦</span>
+      </div>
+      
+      <h1 class="surprise-title">Something Special Is Waiting For You...</h1>
+      <p class="surprise-subtitle">For the greatest father in the world</p>
+
+      <!-- 3D Golden Gift Box -->
+      <div class="gift-box-wrapper" id="gift-box-trigger" title="Click to unwrap your surprise!">
+        <div class="gift-box-glow"></div>
+        <div class="gift-box">
+          <!-- Box Lid -->
+          <div class="box-lid" id="box-lid">
+            <div class="ribbon-bow">
+              <div class="bow-loop bow-loop-left"></div>
+              <div class="bow-loop bow-loop-right"></div>
+              <div class="bow-center"></div>
+            </div>
+            <div class="ribbon-lid-vertical"></div>
+            <div class="ribbon-lid-horizontal"></div>
+          </div>
+          <!-- Box Base -->
+          <div class="box-body">
+            <div class="ribbon-body-vertical"></div>
+            <div class="ribbon-body-horizontal"></div>
+            <div class="box-inner-light" id="box-inner-light"></div>
+          </div>
+        </div>
+        <div class="box-shadow"></div>
+      </div>
+
+      <!-- Action Button -->
+      <button id="btn-open-surprise" class="btn-gold-pulse" aria-label="Open your birthday surprise">
+        <span class="btn-shine"></span>
+        <span class="btn-text">Open Your Surprise</span>
+        <i data-lucide="sparkles" class="btn-icon"></i>
+      </button>
+
+      <span class="touch-hint">Tap the gift box or button to begin</span>
+    </div>
+  </div>
+
+  <!-- ==============================================
+       PERSISTENT FLOATING AUDIO CONTROLS
+       ============================================== -->
+  <header class="floating-header" id="floating-header">
+    <div class="brand-monogram">
+      <span class="crown-icon">👑</span>
+      <span class="brand-text">APPA</span>
+    </div>
+
+    <div class="audio-controls-container">
+      <button id="btn-music-toggle" class="btn-audio-pill" title="Toggle Birthday Song" aria-label="Toggle Birthday Song">
+        <div class="music-wave-bars" id="music-wave-indicator">
+          <span></span><span></span><span></span><span></span>
+        </div>
+        <i data-lucide="music" class="music-icon" id="music-icon"></i>
+        <span class="music-label" id="music-status-text">Birthday Song</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Audio Elements -->
+  <audio id="bg-music" src="assets/audio/background-music.mp3" preload="auto" loop></audio>
+  <audio id="voice-greeting" src="assets/audio/happy-birthday-appa.mp3" preload="auto"></audio>
+
+  <!-- ==============================================
+       MAIN CINEMATIC EXPERIENCE
+       ============================================== -->
+  <main class="main-experience" id="main-experience">
+
+    <!-- ==============================================
+         2. HERO BIRTHDAY CELEBRATION
+         ============================================== -->
+    <section class="hero-section" id="hero-section">
+      <div class="container hero-container">
+        
+        <div class="hero-badge reveal-item">
+          <span class="badge-line"></span>
+          <span class="badge-text">HONORING OUR PILLAR OF STRENGTH</span>
+          <span class="badge-line"></span>
+        </div>
+
+        <h1 class="hero-title reveal-item">
+          <span class="gold-gradient-text">Happy Birthday,</span>
+          <span class="gold-gradient-text gold-glow-title">Appa!</span>
+        </h1>
+
+        <p class="hero-submessage reveal-item">
+          To the man who means the world to me.
+        </p>
+
+        <div class="ornate-divider reveal-item">
+          <span class="diamond-shape"></span>
+        </div>
+
+        <!-- Personal Voice Greeting Section -->
+        <div class="voice-greeting-card reveal-item" id="voice-card">
+          <div class="voice-card-glow"></div>
+          
+          <div class="voice-card-header">
+            <div class="voice-badge">
+              <i data-lucide="mic" class="voice-mic-icon"></i>
+              <span>Personal Voice Greeting</span>
+            </div>
+            <span class="voice-status-tag" id="voice-status-tag">Ready to play</span>
+          </div>
+
+          <div class="voice-playback-row">
+            <button id="btn-play-voice" class="btn-voice-play" aria-label="Play Birthday Message">
+              <i data-lucide="play" id="voice-play-icon" class="play-icon"></i>
+            </button>
+
+            <div class="voice-info-col">
+              <div class="voice-title-row">
+                <span class="voice-title">A Message From My Heart</span>
+                <span class="voice-duration" id="voice-duration-display">0:00 / 0:15</span>
+              </div>
+              
+              <!-- Interactive scrubber -->
+              <div class="voice-progress-container" id="voice-progress-track">
+                <div class="voice-progress-bar" id="voice-progress-fill"></div>
+              </div>
+
+              <!-- Animated Equalizer Visualizer -->
+              <div class="voice-visualizer" id="voice-visualizer">
+                <div class="viz-bar"></div><div class="viz-bar"></div>
+                <div class="viz-bar"></div><div class="viz-bar"></div>
+                <div class="viz-bar"></div><div class="viz-bar"></div>
+                <div class="viz-bar"></div><div class="viz-bar"></div>
+                <div class="viz-bar"></div><div class="viz-bar"></div>
+                <div class="viz-bar"></div><div class="viz-bar"></div>
+                <div class="viz-bar"></div><div class="viz-bar"></div>
+                <div class="viz-bar"></div><div class="viz-bar"></div>
+              </div>
+            </div>
+          </div>
+
+          <p class="voice-note">
+            <i data-lucide="volume-2" class="voice-sub-icon"></i>
+            Background music softly fades while voice plays
+          </p>
+        </div>
+
+        <!-- Scroll Down Cue -->
+        <a href="#cake-section" class="scroll-cue" aria-label="Scroll to cake section">
+          <span>Make a Wish</span>
+          <i data-lucide="chevron-down" class="scroll-arrow"></i>
+        </a>
+      </div>
+    </section>
+
+    <!-- ==============================================
+         3. INTERACTIVE BIRTHDAY CAKE SECTION
+         ============================================== -->
+    <section class="cake-section" id="cake-section">
+      <div class="container cake-container">
+        
+        <div class="section-header reveal-item">
+          <span class="section-tag">A SWEET TRADITION</span>
+          <h2 class="section-title">Make A Birthday Wish</h2>
+          <p class="section-description">Every year with you is a gift of wisdom, kindness, and protection.</p>
+        </div>
+
+        <!-- 3D Realistic Birthday Cake -->
+        <div class="cake-stage reveal-item">
+          
+          <div class="cake-spotlight"></div>
+
+          <!-- Cake Plate & Pedestal -->
+          <div class="cake-pedestal">
+            
+            <!-- Candle on top -->
+            <div class="candle-wrapper" id="candle" title="Click to blow out the candle!">
+              <div class="flame-halo" id="flame-halo"></div>
+              <div class="flame" id="flame">
+                <div class="flame-inner"></div>
+              </div>
+              <div class="smoke" id="smoke"></div>
+              <div class="wick"></div>
+              <div class="candle-cylinder">
+                <div class="candle-stripes"></div>
+              </div>
+            </div>
+
+            <!-- Cake Tier 2 (Top) -->
+            <div class="cake-tier cake-tier-top">
+              <div class="frosting-pearls">
+                <span></span><span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span><span></span>
+              </div>
+              <div class="tier-frosting"></div>
+              <div class="gold-trim"></div>
+            </div>
+
+            <!-- Cake Tier 1 (Base) -->
+            <div class="cake-tier cake-tier-base">
+              <div class="frosting-drips">
+                <span></span><span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span><span></span>
+                <span></span><span></span>
+              </div>
+              <div class="tier-frosting"></div>
+              <div class="gold-filigree-band"></div>
+            </div>
+
+            <!-- Golden Serving Platter -->
+            <div class="cake-stand">
+              <div class="stand-rim"></div>
+              <div class="stand-reflection"></div>
+            </div>
+
+          </div>
+
+          <!-- Wish Status Banner -->
+          <div class="wish-reveal-card" id="wish-reveal-card">
+            <div class="wish-icon">🎂✨</div>
+            <h3 class="wish-message-title">Wish Sent To The Stars!</h3>
+            <p class="wish-message-text">May all your prayers, dreams, and hopes be answered with boundless joy and health, Appa.</p>
+          </div>
+
+          <!-- Cake Action Button -->
+          <button id="btn-blow-candles" class="btn-luxury" aria-label="Make a wish and blow out candles">
+            <span class="btn-shine"></span>
+            <span class="btn-text" id="btn-blow-text">Make a Wish & Blow Candle</span>
+            <i data-lucide="wind" class="btn-icon" id="blow-icon"></i>
+          </button>
+
+          <span class="candle-hint">Tap the candle or the button to blow it out</span>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================================
+         4. FAMILY MEMORIES - PHOTO GALLERY
+         ============================================== -->
+    <section class="gallery-section" id="gallery-section">
+      <div class="container gallery-container">
+
+        <div class="section-header reveal-item">
+          <span class="section-tag">TIMELESS MOMENTS</span>
+          <h2 class="section-title">Cherished Family Memories</h2>
+          <p class="section-description">A journey of dedication, quiet strength, and everlasting love.</p>
+        </div>
+
+        <div class="gallery-showcase">
+
+          <!-- Photo 1: Parents' memory -->
+          <div class="memory-card memory-card-landscape reveal-item" data-photo="1">
+            <div class="gold-frame-glow"></div>
+            <div class="gold-frame">
+              <div class="frame-inner-mat">
+                <div class="image-wrapper">
+                  <img src="assets/images/memory-1.jpg" alt="Parents together in an earlier stage of their journey" class="memory-img" loading="lazy">
+                  <div class="image-shine"></div>
+                </div>
+              </div>
+              <div class="frame-corner frame-corner-tl"></div>
+              <div class="frame-corner frame-corner-tr"></div>
+              <div class="frame-corner frame-corner-bl"></div>
+              <div class="frame-corner frame-corner-br"></div>
+            </div>
+            
+            <div class="memory-caption">
+              <span class="memory-tag">Chapter I • The Beginning</span>
+              <blockquote class="caption-quote">"Every beautiful story has a beginning."</blockquote>
+              <p class="caption-subtext">The bond that laid the foundation for our entire family.</p>
+            </div>
+          </div>
+
+          <!-- Photo 2: Parents together -->
+          <div class="memory-card memory-card-landscape reveal-item" data-photo="2">
+            <div class="gold-frame-glow"></div>
+            <div class="gold-frame">
+              <div class="frame-inner-mat">
+                <div class="image-wrapper">
+                  <img src="assets/images/memory-2.jpg" alt="Parents together through life's journey" class="memory-img" loading="lazy">
+                  <div class="image-shine"></div>
+                </div>
+              </div>
+              <div class="frame-corner frame-corner-tl"></div>
+              <div class="frame-corner frame-corner-tr"></div>
+              <div class="frame-corner frame-corner-bl"></div>
+              <div class="frame-corner frame-corner-br"></div>
+            </div>
+
+            <div class="memory-caption">
+              <span class="memory-tag">Chapter II • Enduring Grace</span>
+              <blockquote class="caption-quote">"Together, through every chapter of life."</blockquote>
+              <p class="caption-subtext">Walking through sunshine and storms with gentle resilience.</p>
+            </div>
+          </div>
+
+          <!-- Photo 3: Family photograph (Emotional Highlight) -->
+          <div class="memory-card memory-card-portrait-highlight reveal-item" data-photo="3">
+            <div class="highlight-crown">
+              <span class="crown-icon">👑</span>
+              <span class="crown-tag">THE EMOTIONAL HIGHLIGHT</span>
+            </div>
+
+            <div class="gold-frame-glow pulse-glow"></div>
+            <div class="gold-frame portrait-frame">
+              <div class="frame-inner-mat portrait-mat">
+                <div class="image-wrapper portrait-wrapper">
+                  <!-- Preserves full aspect ratio completely without cropping subjects -->
+                  <img src="assets/images/family-photo.jpg" alt="Our complete family together" class="memory-img portrait-img" loading="lazy">
+                  <div class="image-shine"></div>
+                </div>
+              </div>
+              <div class="frame-corner frame-corner-tl"></div>
+              <div class="frame-corner frame-corner-tr"></div>
+              <div class="frame-corner frame-corner-bl"></div>
+              <div class="frame-corner frame-corner-br"></div>
+            </div>
+
+            <div class="memory-caption highlight-caption">
+              <span class="memory-tag">Chapter III • Our Everything</span>
+              <blockquote class="caption-quote highlight-quote">"My greatest blessing is having you as my family."</blockquote>
+              <p class="caption-subtext">Every dream I achieve is built upon the foundation of your sacrifices.</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==============================================
+         5. EMOTIONAL MESSAGE SECTION
+         ============================================== -->
+    <section class="letter-section" id="letter-section">
+      <div class="container letter-container">
+        
+        <div class="parchment-letter reveal-item">
+          
+          <div class="letter-seal">
+            <span class="seal-icon">✦</span>
+          </div>
+
+          <div class="letter-filigree-top"></div>
+
+          <div class="letter-body">
+            <p class="letter-salutation">Dear Appa,</p>
+
+            <p class="letter-para">
+              Words can never fully express how much you mean to me.
+            </p>
+
+            <p class="letter-para">
+              Thank you for every sacrifice, every lesson, every encouragement, and every moment you have stood beside me.
+            </p>
+
+            <p class="letter-para">
+              You have always been one of my greatest strengths and my biggest inspiration.
+            </p>
+
+            <p class="letter-para">
+              I may not say it every day, but I am truly grateful to have you as my father.
+            </p>
+
+            <p class="letter-para">
+              I wish you happiness, good health, peace, and countless beautiful moments.
+            </p>
+
+            <div class="letter-closing">
+              <p class="letter-wishes">Happy Birthday, Appa!</p>
+              <p class="letter-signoff">With all my love.</p>
+            </div>
+          </div>
+
+          <div class="letter-filigree-bottom"></div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==============================================
+         6. FINAL FAMILY PHOTO & CLOSING SCREEN
+         ============================================== -->
+    <section class="finale-section" id="finale-section">
+      
+      <!-- Ambient background blur of family photo -->
+      <div class="finale-backdrop-ambient">
+        <img src="assets/images/family-photo.jpg" alt="" class="finale-ambient-img" aria-hidden="true">
+        <div class="finale-dark-veil"></div>
+      </div>
+
+      <div class="container finale-container">
+        
+        <!-- Showcase portrait family photograph -->
+        <div class="finale-portrait-box reveal-item">
+          <div class="finale-golden-aura"></div>
+          <div class="finale-frame">
+            <img src="assets/images/family-photo.jpg" alt="Appa and Family" class="finale-photo">
+          </div>
+        </div>
+
+        <div class="finale-content reveal-item">
+          <div class="finale-ornament">✦ ✦ ✦</div>
+          <h2 class="finale-title gold-gradient-text">Forever Grateful. Forever Your Son.</h2>
+          <p class="finale-subheading gold-glow-title">Love You, Appa!</p>
+
+          <p class="finale-dedication">
+            May your year ahead be blessed with good health, deep laughter, and endless peace.
+          </p>
+
+          <!-- Replay Button -->
+          <button id="btn-replay" class="btn-gold-pulse finale-btn" aria-label="Replay Birthday Surprise">
+            <span class="btn-shine"></span>
+            <i data-lucide="rotate-ccw" class="btn-icon"></i>
+            <span class="btn-text">Replay Your Surprise</span>
+          </button>
+        </div>
+
+      </div>
+
+      <footer class="site-footer">
+        <p>Crafted with boundless devotion & love for Appa • Happy Birthday!</p>
+      </footer>
+    </section>
+
+  </main>
+
+  <!-- High-Res Lightbox Modal -->
+  <div id="photo-modal" class="photo-modal" aria-hidden="true" role="dialog">
+    <div class="modal-backdrop" id="modal-backdrop"></div>
+    <div class="modal-wrapper">
+      <button class="modal-close" id="modal-close" aria-label="Close photo preview">
+        <i data-lucide="x"></i>
+      </button>
+      <div class="modal-img-container">
+        <img id="modal-img" src="" alt="Full view memory" class="modal-img">
+        <p id="modal-caption" class="modal-caption"></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
